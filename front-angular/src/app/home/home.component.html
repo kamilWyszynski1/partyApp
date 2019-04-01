@@ -1,0 +1,39 @@
+
+<header>
+  <h1>How it works?</h1>
+  <h3>Easy as that!</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+          <span> Enter your location</span>
+          <label>Just set the pin in map above</label>
+      </div>
+      <div class="col-sm">
+        <span> Enter your order </span>
+        <label>Delivers will know what u are willing to get!</label>
+
+      </div>
+      <div class="col-sm">
+        <span> Get your delivery and hostess! </span>
+        <label> Delivers and hostess will let you know if they want to serve your party! </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="home-content">
+  <form id="partyForm" ngNativeValidate [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <label>Location</label>
+    <input id="location" type="text" placeholder="Location" formControlName="location" required>
+    <label>Order Content</label>
+    <input id="content" placeholder="content" type="text" formControlName="content" required>
+    <label>Amount of hostesses</label>
+    <input id="hostess" placeholder="Amount of hostesses" type="number" formControlName="hostess" required>
+    <button class="btn btn-dark" type="submit" onclick="onSubmit()">Click me!</button>
+      
+  </form>
+  <button class="btn btn-dark"  (click)="session()">Click me!</button>
+</div>
+<div id="map" #map ></div>
+
+
