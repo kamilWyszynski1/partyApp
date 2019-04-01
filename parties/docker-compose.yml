@@ -1,0 +1,26 @@
+version: '2.1'
+services:
+  postgres:
+    restart: always
+    image: postgres:10
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+    volumes:
+      - ./postgres-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432"
+  app:
+    network_mode: "host"
+    restart: always
+    environment:
+      - APP_SETTINGS=${APP_SETTINGS}
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    entrypoint: ["python", "manage.py", "runserver"]
