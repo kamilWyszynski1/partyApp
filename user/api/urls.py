@@ -7,5 +7,5 @@ router.register('clients', views.ClientViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-   # path('clients/<int:pk>', views.SingleClientGet.as_view(), name='single_client'),
+    path('check/', views.check_user, name='check')
 ]
