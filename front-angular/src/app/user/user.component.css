@@ -109,3 +109,12 @@ body {
   color: white;
   background-color: #3b5998;
 }
+
+.fa-angle-double-left:hover{
+  font-size: 120%;
+}
+
+.goBack{
+  display: block;
+  height: 20px;
+}

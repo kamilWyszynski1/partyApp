@@ -7,10 +7,17 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  loginView: boolean = true;
 
   userForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
+  });
+
+  signUpForm = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+    repeatPassword: new FormControl('')
   });
 
 
@@ -20,6 +27,11 @@ export class UserComponent implements OnInit {
   }
 
   click(){
-    localStorage.setItem('user', 'logged');
+    this.loginView = !this.loginView;
+  }
+
+  signUpView(){
+    this.loginView = !this.loginView;
+
   }
 }
