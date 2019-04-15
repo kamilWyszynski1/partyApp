@@ -43,8 +43,6 @@ export class HomeComponent implements OnInit {
  KEY = 'value';
  value: any = null;
  
- title = 'front';
- message = 's';
  party_id : number;
  
 

@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { UserComponent } from './user/user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCheckboxModule, MatSnackBarModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,11 @@ import { UserComponent } from './user/user.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    AngularWebStorageModule
+    AngularWebStorageModule,
+    BrowserAnimationsModule,
+    MatButtonModule, MatCheckboxModule,
+    MatSnackBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

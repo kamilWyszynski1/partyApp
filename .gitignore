@@ -3,6 +3,7 @@ npm-debug.log
 .vscode/*
 /.idea
 node_modules
+.vscode
 env
 __pycache__
 migrations

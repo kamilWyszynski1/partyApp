@@ -6,7 +6,7 @@ import { UserComponent } from './user/user.component';
 
 const appRoutes: Routes = [
   {path: '**', component: (() => {
-    return localStorage.getItem('user') ? HomeComponent : UserComponent;
+    return localStorage.getItem('token') ? HomeComponent : UserComponent;
     })()
   },
   {
@@ -17,7 +17,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(
     appRoutes,
-    { enableTracing: true })],
+    { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
