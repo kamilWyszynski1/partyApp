@@ -16,11 +16,12 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         password = validated_data.pop('password')
         try:
             location = validated_data.pop('location')
-        except KeyError as e:
+        except KeyError:
             location = ""
         client = Client(email=email, location=location)
         client.username = email
         client.set_password(password)
+        client.is_active = False
         client.save()
         return client
 

@@ -7,5 +7,6 @@ router.register('clients', views.ClientViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('check/', views.check_user, name='check')
+    path('check/', views.check_user, name='check'),
+    path('activate/', views.activate_user, name='activate')
 ]

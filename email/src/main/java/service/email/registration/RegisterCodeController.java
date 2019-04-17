@@ -2,6 +2,7 @@ package service.email.registration;
 
 import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,8 @@ import java.util.Random;
 @RestController
 public class RegisterCodeController {
 
-    private static final String REDIS_INDEX_KEY = "PRODUCT";
-//
-//    @Autowired
-//    RedisTemplate<String, Object> redisTemplate;
+    @Value("${access_token}")
+    private String access_token;
 
     @Autowired
     private RegisterCodeRepository registerCodeRepository;
@@ -54,6 +53,11 @@ public class RegisterCodeController {
 
     @RequestMapping(value = "/verify", method = RequestMethod.POST)
     public ResponseEntity<RegisterCode> verify(@RequestBody RegisterCode registerCode){
+        /*
+            Endpoint verify if sent code matches email, if so it sends request to activate
+            user to User Service and return STATUS 200. If Code doesnt match email it returns
+            404 or 401.
+         */
 
         RegisterCode registerCodeDb = registerCodeRepository.findById(registerCode.getEmail())
                 .orElse(null);
@@ -61,9 +65,16 @@ public class RegisterCodeController {
         if (registerCodeDb == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        if (registerCodeDb.getCode() == registerCode.getCode())
+        if (registerCodeDb.getCode() == registerCode.getCode()) {
+            registerCodeRepository.delete(registerCode);
+            this.activate_user(registerCode.getEmail());
             return new ResponseEntity<>(HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    private void activate_user(String email){
+        
     }
 }
