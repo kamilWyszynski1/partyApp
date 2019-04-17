@@ -11,8 +11,6 @@ DBHOST = '0.0.0.0'
 DBPORT = '5432'
 DBNAME = 'postgres'
 
-
-
 app = Flask(__name__)
 CORS(app)
 
@@ -102,7 +100,7 @@ class PartyResource(Resource):
                 db.session.delete(party)
                 db.session.commit()
                 return 'deleted', 200
-            except Exception as e:
+            except Exception:
                abort(404)
 
     def put(self, party_id):
@@ -113,7 +111,7 @@ class PartyResource(Resource):
             content = request.json
             party.order = content['order']
             db.session.commit()
-        except Exception as e:
+        except Exception:
             abort(404)
 
 api.add_resource(PartyResource,

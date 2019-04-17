@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+import requests
+
 from rest_framework import serializers
 from .models import Client
 
@@ -6,10 +7,18 @@ from .models import Client
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
-        fields = ( 'id', 'email', 'password', 'location')
+        fields = ('id', 'email', 'password', 'location')
         extra_kwargs = {'password': {
             'write_only': True
         }}
+
+    @classmethod
+    def send_mail(cls, email):
+        mail_url = "http://localhost:8080/verification/"
+        post_data = {'email': email}
+        response = requests.post(mail_url, json=post_data, timeout=5)
+
+        return response
 
     def create(self, validated_data):
         email = validated_data.pop('email')
@@ -22,13 +31,16 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         client.username = email
         client.set_password(password)
         client.is_active = False
-        client.save()
-        return client
+        response = self.send_mail(email)
+
+        if response.status_code == 200:
+            client.save()
+            return client
+        else:
+            return None
 
 
 class ClientSerializerLocation(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
         fields = ('location',)
-
-
