@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.http import HttpResponse
 from .models import Client
 from .permissions import IsAdminOrIsSelf
@@ -26,11 +27,13 @@ class ClientViewSet(mixins.CreateModelMixin,
         return serializer_class
 
     def get_permissions(self):
-        self.permission_classes = [IsAdminOrIsSelf]
+        if self.request.method == 'GET':
+            self.permission_classes = [IsAdminOrIsSelf]
+        elif self.request.method == 'POST':
+            self.permission_classes = [IsAdminUser]
         return super(ClientViewSet, self).get_permissions()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
 
 def check_user(request):
     user = request.user.username

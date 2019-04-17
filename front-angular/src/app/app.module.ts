@@ -10,12 +10,14 @@ import { AngularWebStorageModule } from 'angular-web-storage';
 import { UserComponent } from './user/user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatSnackBarModule} from '@angular/material';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    UserComponent
+    UserComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

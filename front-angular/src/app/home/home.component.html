@@ -23,17 +23,24 @@
 
 <div class="home-content">
   <form id="partyForm" ngNativeValidate [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <label>Location</label>
-    <input id="location" type="text" placeholder="Location" formControlName="location" required>
-    <label>Order Content</label>
-    <input id="content" placeholder="content" type="text" formControlName="content" required>
-    <label>Amount of hostesses</label>
-    <input id="hostess" placeholder="Amount of hostesses" type="number" formControlName="hostess" required>
-    <button class="btn btn-dark" type="submit" onclick="onSubmit()">Click me!</button>
-      
+    <div *ngIf="scene === 0">
+      <div class="location-input">
+        <label>Pick your location!</label>
+        <input id="location" type="text" placeholder="Location" formControlName="location" required>
+        <div class="icon">
+          <button (click)="changeView()" [disabled]="orderForm.invalid" id="icon-button">
+            <i class="fas fa-check"></i>
+          </button>
+        </div>
+      </div>
+      <div id="map" #map></div>
+      <button type="submit" class="btn btn-light">Pick!</button>
+    </div>
+
+    <div *ngIf="scene === 1">
+      <h4>Pick your content!</h4>
+    </div>
   </form>
-  <button class="btn btn-dark"  (click)="session()">Click me!</button>
 </div>
-<div id="map" #map ></div>
 
-
+<button (click)="session()">clear</button>

@@ -3,14 +3,20 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
+import { LayoutComponent } from './layout/layout.component';
 
 const appRoutes: Routes = [
-  {path: '**', component: (() => {
-    return localStorage.getItem('token') ? HomeComponent : UserComponent;
-    })()
+  {
+    path: 'login', component: UserComponent
   },
   {
-    path: 'party', component: HomeComponent
+    path: '', component: LayoutComponent,
+    children:[
+      {
+        path: 'party',
+        component: HomeComponent
+      }
+    ]
   },
 ];
 

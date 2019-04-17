@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import {} from 'googlemaps';
@@ -34,10 +34,11 @@ export class HomeComponent implements OnInit {
     }
 
   */
- 
+ scene = 0;
  constructor(
    private http: HttpClient,
-   public local: LocalStorageService
+   public local: LocalStorageService,
+   
    ){}
 
  KEY = 'value';
@@ -117,7 +118,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       const mapProperties = {
-        center: new google.maps.LatLng(35.2271, -80.8431),
+        center: new google.maps.LatLng(52.229675, 21.012230),
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -125,8 +126,15 @@ export class HomeComponent implements OnInit {
     }, 1000);
   }
 
-
   session(){
     localStorage.clear();
+  }
+
+  open(){
+    console.log('asd');
+  }
+
+  changeView(){
+    this.scene += 1;
   }
 }
