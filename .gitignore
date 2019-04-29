@@ -1,4 +1,5 @@
-documentation
+user/.idea
+venv
 npm-debug.log
 .vscode/*
 /.idea

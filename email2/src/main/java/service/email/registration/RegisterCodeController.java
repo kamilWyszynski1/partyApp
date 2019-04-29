@@ -1,10 +1,10 @@
 package service.email.registration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
@@ -69,23 +69,39 @@ public class RegisterCodeController {
         if (registerCodeDb.getCode() == registerCode.getCode()) {
             // Delete verified email
             registerCodeRepository.delete(registerCode);
-            this.activate_user(registerCode.getEmail());
 
-            return new ResponseEntity<>(HttpStatus.OK);
+            try {
+                this.activate_user(registerCode.getEmail());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch(HttpClientErrorException error){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
         else
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    private void activate_user(String email){
+    @RequestMapping(value = "/activate", method = RequestMethod.GET)
+    private HttpStatus activate_user(String email) throws HttpClientErrorException{
         /*
-            Function sends request to User Service and call acitvate user function
+            Function sends request to User Service and call activate user function
          */
         final String url = "http://localhost:8000/activate/";
+
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(url, String.class);
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        System.out.println(result);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer tokenik");
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
+        String requestJson = "{\"email\":\"test@wp.pl\"}" ;
+        String.format(requestJson, email);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
+
+        ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
+
+        return result.getStatusCode();
     }
 }

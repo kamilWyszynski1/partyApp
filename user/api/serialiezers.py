@@ -30,7 +30,9 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         client = Client(email=email, location=location)
         client.username = email
         client.set_password(password)
-        client.is_active = False
+
+        if not client.is_admin:
+            client.is_active = False
         response = self.send_mail(email)
 
         if response.status_code == 200:

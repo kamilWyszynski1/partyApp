@@ -1,3 +1,6 @@
+import json
+
+import requests
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -16,7 +19,7 @@ class ClientViewSet(mixins.CreateModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     viewsets.GenericViewSet):
-    basename = 'client api'
+
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
@@ -52,10 +55,10 @@ def check_user(request):
 def activate_user(request):
     """
         Function takes request from email service - it has constant permission 
-        provided on admin account. Email services store infinit access token which allows
+        provided on admin account. Email services store infinite access token which allows
         service to provide this action.
     """
-    email = request.body['email']
+    email = request.data['email']
     try:
         user = Client.objects.get(email = email)
         user.is_active = True
@@ -63,3 +66,14 @@ def activate_user(request):
         return HttpResponse(status=200)
     except ObjectDoesNotExist:
         return HttpResponse(status=404)
+
+
+def send_mail(request):
+    mail_url = "http://localhost:8080/verification/"
+    url = "http://127.0.0.1:5000"
+    email = 'kamil-wyszynski@wp.pl'
+    post_data = {'email': email}
+    # response = requests.post(mail_url, json=post_data, timeout=5)
+    response = requests.get(url)
+
+    return HttpResponse(response.status_code)

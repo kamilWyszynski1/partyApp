@@ -1,0 +1,39 @@
+Order:
+    host: 3000
+    endpoints:
+        - /order            GET, POST, DELETE
+        - /order/:order_id  GET, DELETE
+
+        json: 
+        {
+            'party': number,
+            'content': string
+        }
+
+Party:
+    host: 5000
+    endpoints:
+        - /party            GET, POST, DELETE
+        - /party/:party_id  GET, PUT, DELETE
+
+        json:
+        {
+            'user': number,
+            'location': string,
+            'order': string,
+            'hostesses': number
+        }
+
+        headers:
+        {
+            'Authorization': token
+        }
+
+Email:
+    host: 8080
+    endpoints:
+    - /verification/    POST, GET, DELETE
+        creates registerCode for provided user
+    - /verify/          POST
+        verifys given code and email in data in db and 
+        sends request to activate User
