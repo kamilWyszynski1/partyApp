@@ -19,7 +19,6 @@ class ClientViewSet(mixins.CreateModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     viewsets.GenericViewSet):
-
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
@@ -60,7 +59,7 @@ def activate_user(request):
     """
     email = request.data['email']
     try:
-        user = Client.objects.get(email = email)
+        user = Client.objects.get(email=email)
         user.is_active = True
         user.save()
         return HttpResponse(status=200)
