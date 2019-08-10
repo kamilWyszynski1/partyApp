@@ -39,7 +39,7 @@ message Alcohol {
         VODKA = 1;
         VINO = 2;
     }
-    Alcohol alcohol = 1;
+    Alcohol type = 1;
     int32 amount = 2;
 }
 

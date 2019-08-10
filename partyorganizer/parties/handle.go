@@ -6,7 +6,7 @@ import (
 	"gitlab.dcx.bz/flypath/flypath/src/gomessages/common/glog"
 	"io/ioutil"
 	"net/http"
-	"partyApp/partyorganizations/models/protobuf"
+	"partyApp/partyorganizer/models/protobuf"
 )
 
 //GetParties returns actual, available parties
@@ -31,10 +31,12 @@ func CreateParty(w http.ResponseWriter, r *http.Request, params httprouter.Param
 		glog.Error("Could not unmarshla body: ", err)
 		return
 	}
-	validateInput(req)
-	status = http.StatusOK
+	status = validateInput(req)
 }
 
-func validateInput(party *models.Party) bool {
-	return true
+func validateInput(party *models.Party) int {
+	if party.Id == 0 || party.Location == nil || party.User == 0 {
+		return http.StatusBadRequest
+	}
+	return http.StatusOK
 }

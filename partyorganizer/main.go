@@ -10,7 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"partyApp/partyorganizations/parties"
+	"partyApp/partyorganizer/parties"
 	"runtime"
 )
 
