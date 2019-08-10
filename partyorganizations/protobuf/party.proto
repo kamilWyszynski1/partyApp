@@ -1,0 +1,53 @@
+syntax = "proto3";
+package tutorial;
+message Party {
+    int32 id = 1;
+    int64 user = 2;
+    Location location = 3;
+    Order order = 4;
+    int32 amountOfHostess = 5;
+}
+
+message Location {
+    string city = 1;
+    string street = 2;
+    string houseNumber = 3;
+}
+
+message Order {
+    // id from user's dataset
+    int32 deliver = 1;
+
+    enum Status{
+        CANCELED = 0;
+        CONFIRMED = 1;
+        ON_HOLD = 2;
+        DONE = 3;
+    }
+    Status status = 2;
+    Content content = 3;
+}
+
+message Content {
+    repeated Alcohol alcohols = 1;
+    repeated Snack snacks = 2;
+}
+
+message Alcohol {
+    enum Alcohol{
+        WHISKEY = 0;
+        VODKA = 1;
+        VINO = 2;
+    }
+    Alcohol alcohol = 1;
+    int32 amount = 2;
+}
+
+message Snack {
+    enum Snacks {
+        CHIPS = 0;
+        CRISPS = 1;
+    }
+    Snacks snack = 1;
+    int32 amount = 2;
+}

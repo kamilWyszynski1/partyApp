@@ -1,0 +1,8 @@
+{
+  "BigQuery": {
+    "PartyDataset": "parties",
+    "Tables": {
+      "Parties": "parties"
+    }
+  }
+}

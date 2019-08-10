@@ -1,6 +1,7 @@
 user/.idea
 venv
 npm-debug.log
+.vscode
 .vscode/*
 /.idea
 node_modules
@@ -55,3 +56,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/vendor/
