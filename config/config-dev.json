@@ -1,0 +1,8 @@
+{
+  "BigQuery": {
+    "PartyDataset": "raw",
+    "Tables": {
+      "Parties": "parties"
+    }
+  }
+}

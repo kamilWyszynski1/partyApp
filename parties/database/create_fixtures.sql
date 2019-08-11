@@ -1,3 +1,0 @@
-CREATE DATABASE test;
-CREATE USER kamil WITH PASSWORD 'postgres';
-GRANT ALL ON DATABASE "test" TO kamil;
