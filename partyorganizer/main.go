@@ -17,6 +17,7 @@ import (
 var ctx context.Context
 var partiesInserter *bigquery.Inserter
 var partiesTableSchema bigquery.Schema
+var handler *parties.PartiesHandler
 
 type server struct {
 	router *httprouter.Router
@@ -27,8 +28,8 @@ func (s *server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 }
 
 func (s *server) handleRequests() {
-	s.router.GET("/getParties", parties.GetParties)
-	s.router.POST("/createParty", parties.CreateParty)
+	s.router.GET("/getParties", handler.GetParties)
+	s.router.POST("/createParty", handler.CreateParty)
 }
 
 func initializeBigQuery(proj string) {
@@ -36,8 +37,9 @@ func initializeBigQuery(proj string) {
 	if err != nil {
 		glog.Critical("Could not create bigquery client: ", err)
 	}
-	partiesInserter = bigqueryClient.Dataset(viper.GetString("BigQuery.PartyDataset")).Table("BigQuery.Tables.Parties").Inserter()
-	md, err := bigqueryClient.Dataset(viper.GetString("BigQuery.PartyDataset")).Table("BigQuery.Tables.Parties").Metadata(ctx)
+	partiesInserter = bigqueryClient.Dataset(viper.GetString("BigQuery.PartyDataset")).Table(viper.GetString("BigQuery.Tables.Parties")).Inserter()
+	fmt.Println(viper.GetString("BigQuery.PartyDataset"))
+	md, err := bigqueryClient.Dataset(viper.GetString("BigQuery.PartyDataset")).Table(viper.GetString("BigQuery.Tables.Parties")).Metadata(ctx)
 	if err != nil {
 		log.Fatal("Could not load bigquery table metadata ", err)
 	}
@@ -58,7 +60,9 @@ func main() {
 		glog.Critical("GOOGLE_CLOUD_PROJECT environment variable must be set.")
 		os.Exit(1)
 	}
-	//initializeBigQuery(proj)
+	initializeBigQuery(proj)
+
+	handler = parties.NewPartiesHandler(ctx, partiesInserter, partiesTableSchema)
 
 	log.Println("Start receive, on http")
 	s := &server{httprouter.New()}

@@ -1,11 +1,12 @@
 syntax = "proto3";
-package tutorial;
+package models;
+
 message Party {
     int32 id = 1;
     int64 user = 2;
     Location location = 3;
     Order order = 4;
-    int32 amountOfHostess = 5;
+    int32 hostess = 5;
 }
 
 message Location {
@@ -29,8 +30,8 @@ message Order {
 }
 
 message Content {
-    repeated Alcohol alcohols = 1;
-    repeated Snack snacks = 2;
+    repeated Alcohol alcohol = 1;
+    repeated Snack snack = 2;
 }
 
 message Alcohol {
@@ -48,6 +49,6 @@ message Snack {
         CHIPS = 0;
         CRISPS = 1;
     }
-    Snacks snack = 1;
+    Snacks type = 1;
     int32 amount = 2;
 }

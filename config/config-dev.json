@@ -1,6 +1,6 @@
 {
   "BigQuery": {
-    "PartyDataset": "parties",
+    "PartyDataset": "raw",
     "Tables": {
       "Parties": "parties"
     }
