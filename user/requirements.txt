@@ -1,5 +1,5 @@
 Django==2.1.8
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 djangorestframework-stubs==0.4.2
 pytz==2018.9
 psycopg2==2.7.7
